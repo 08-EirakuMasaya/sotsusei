@@ -8,38 +8,42 @@ g'sの卒業制作
 概要：<br />
 #グループチャット内で<br />みんなの希望に沿ったお店（ホテル、etc）が<br />リアルタイムに表示される<br />webアプリ
 
+
 ##必要な機能とそれに伴う技術：<br />
 **・チャットシステム**<br />
 　技術：milkcocoa
 
-**・投票機能**
+**・投票機能**<br />
 　技術：javascript
 
-**・各種API（まずはグルメに絞る）とのリアルタイム連携**
+**・各種API（まずはグルメに絞る）とのリアルタイム連携**<br />
 　技術：milkcocoa
 
-**・テキスト解析APIとの連携**
+**・テキスト解析APIとの連携**<br />
  技術：milkcocoa
 
-**・スマートフォン最適化**
+**・スマートフォン最適化**<br />
  技術：html,css
 
-##使用API
-**・グルメ**
 
-**ホットペッパーAPI（http://api.hotpepper.jp/reference.html）**
+
+##使用API
+**・グルメ**<br />
+
+**ホットペッパーAPI（http://api.hotpepper.jp/reference.html）**<br />
 利用制限
 写真にクレジット表記、ホットペッパーロゴ表記が必須（表示エリアの圧迫が懸念点）
 
-**ぐるなびAPI**
+**ぐるなびAPI**<br />
 レストラン検索API（http://api.gnavi.co.jp/api/manual/restsearch/）
 利用制限
 1リクエストに対するレスポンス10件まで
 写真にクレジット表記、店舗ページへのリンク、ぐるなびロゴ表記が必須（表示エリアの圧迫が懸念点）
 
 
-**・テキスト**
-**yahooテキスト解析**
+**・テキスト**<br />
+
+**yahooテキスト解析**<br />
 日本語形態素解析を使用（http://developer.yahoo.co.jp/webapi/jlp/ma/v1/parse.html）
 httpでリクエスト送信→xmlでレスポンス→xmlをパースして表示
 利用制限
