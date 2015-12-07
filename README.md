@@ -29,7 +29,7 @@ g'sの卒業制作
 
 
 ##使用API
-**・グルメ**<br />
+###・グルメ<br />
 
 **ホットペッパーAPI（http://api.hotpepper.jp/reference.html）**<br />
 利用制限
@@ -43,7 +43,7 @@ g'sの卒業制作
 
 
 
-**・テキスト**<br />
+###・テキスト<br />
 
 **yahooテキスト解析**<br />
 日本語形態素解析を使用（http://developer.yahoo.co.jp/webapi/jlp/ma/v1/parse.html）
