@@ -12,7 +12,7 @@ g'sの卒業制作
 webアプリ<br />
 
 必要な機能とそれに伴う技術：<br />
-<span style"font-weight:bold;">・チャットシステム</span><br />
+<p><span style"font-weight:bold;">・チャットシステム</span></p><br />
 　技術：milkcocoa
 
 ・投票機能
