@@ -1,0 +1,20 @@
+@charset "UTF-8";
+/* CSS Document */
+
+ul,li{
+	list-style:none;
+}
+p.thumb{
+    border: 1px solid #aaa;
+    display:block;
+    width:180px; /*トリミング後の横幅*/
+    height:180px; /*トリミング後の縦幅*/
+    overflow:hidden;
+    position:relative;
+    z-index:1;
+}
+p.thumb img{
+    float:left;
+    position:absolute;
+}
+

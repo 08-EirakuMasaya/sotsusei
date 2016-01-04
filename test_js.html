@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<title>JSONPでレストラン検索APIの結果を取得するサンプルコード</title>
+</head>
+<body>
+<input type="text" placeholder="新宿　中華" class="js--key"><input type="button" value="search" class="js--search" />
+<div class="result"></div>
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="./js/thumb_resize.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/style.css">
+<script>
+ 
+(function(){
+ 
+  var url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/?callback=?';
+  var params = {
+    keyid: 'ac32eeac53d7ac9d23b1aca6e90d843f',
+    format: 'json',
+	freeword_condition: 1,
+	freeword:''
+    /*latitude: 35.670083,
+    longitude: 139.763267,
+    range: 1 */
+  };
+ 
+  var showResult = function(result){
+	  <!--「.」で繋ぐことでデータ内のキーにアクセス -->
+    if ( result.total_hit_count > 0 ) {
+      var res = '';
+      alert( result.total_hit_count + '件の結果が見つかりました。\n' );
+      for ( var i in result.rest ){
+          res += '<li><p class="thumb"><img src = "' + result.rest[i].image_url.shop_image1 + '" class ="tumb1" alt = ""></p><br /> ' + result.rest[i].name + ' ' + result.rest[i].access.line + ' ' + result.rest[i].access.station + ' ' + result.rest[i].access.walk + '分</li>';
+      }
+	  $('.result').html('<ul>' + res + '</ul>');
+    /*  alert(res);*/
+    } else {
+      alert( '検索結果が見つかりませんでした。' );
+    }
+  }
+ 
+  $(document).on('click', '.js--search', function(){
+    <!-- params.keyid = $('.js--key').val(); -->
+	<!-- ここでjsonを呼びだし、function(result)はコールバック関数（リクエスト成功時の処理を関数として指定。 関数の引数としてdata, textStatus, jqXHRの3つの値を受け取る事が出来る） -->
+	params.freeword = $('.js--key').val();
+    $.getJSON(url, params, function(result){
+      showResult(result);
+    });
+  });
+ 
+})(jQuery);
+ 
+</script>
+</body>
+</html>
