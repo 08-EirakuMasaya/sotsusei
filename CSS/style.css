@@ -17,4 +17,12 @@ p.thumb img{
     float:left;
     position:absolute;
 }
+.post-date {
+	color: #BCBABA;
+	font-size:10px;
+}
+.post-name {
+	color:#848484;
+	font-size:12px;
+}
 

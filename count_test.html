@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>test</title>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script>
+$(function(){
+$("#buttn").on("click", function(){
+	countup();
+	});
+	var count = 0;
+	 function countup(){
+		count++;
+		$(".count-num").html("<p>" + count + "</p>");
+		console.log(count);
+		}
+});
+</script>
+</head>
+
+<body>
+<div id="buttn">
+<button>カウントアップ</button>
+<div class="count-num"></div>
+</div>
+</body>
+</html>

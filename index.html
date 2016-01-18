@@ -4,11 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <meta property="og:title" content="Milkcocoaで作ったリアルタイムチャット" />
-    <meta property="og:type" content="chat" />
-    <meta property="og:description" content="BaaS（Milkcocoa）で作られたリアルタイムチャット" />
-    <title>11回目課題</title>
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <title>sotsusei</title>
+    <link rel="stylesheet" href="./css/style.css" type="text/css" />
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://cdn.mlkcca.com/v2.0.0/milkcocoa.js"></script>
     <script>
@@ -18,7 +15,7 @@
         //2."message"データストアを作成ストア名の変えると都度生成する
         var ds = milkcocoa.dataStore("message");
         //3."message"データストアからメッセージを取ってくる「sort("desc")」昇順、降順の切り替え。「datas」はコメントが入った配列
-        ds.stream().sort("desc").next(function(err, datas) {
+        ds.stream().sort("desc").next(function(err, datas) { //「ds.stream」保存されたデータの取り出し
             console.log(datas);
             datas.forEach(function(data) {
                 renderMessage(data); //関数34行目へ
@@ -32,13 +29,14 @@
         var last_message = "dummy";
         //htmlに書き込む命令文
         function renderMessage(message) {
-            var name_html = '<p class="post-text">NAME：' + escapeHTML(message.value.name) + '</p>';
-            var message_html = '<p class="post-text">COMENT:' + escapeHTML(message.value.content) + '</p>';
+            var name_html = '<p class="post-name">' + escapeHTML(message.value.name) + '</p>';
+            var message_html = '<p class="post-text">' + escapeHTML(message.value.content) + '</p>';
             var date_html = '';
+			var count_html = '<div class="count-num"></div>';
             if(message.value.date) {
-                date_html = '<p class="post-date">投稿時間：'+escapeHTML( new Date(message.value.date).toLocaleString())+'</p>'; //「toLocaleString()」で時間表記を整形している
+                date_html = '<p class="post-date">TIME：'+escapeHTML( new Date(message.value.date).toLocaleString())+'</p>'; //「toLocaleString()」で時間表記を整形している
             }
-            $("#"+last_message).before('<div id="'+message.id+'" class="post">' + checkbox + '<label for="check' +message.id+ '">' + name_html + message_html + date_html + '</label></div>');
+            $("#"+last_message).before('<div id="'+message.id+'" class="post">' + name_html + message_html + count_html + date_html + '</div>');
             last_message = message.id;
         }
         function post() {
@@ -65,11 +63,34 @@
                 return false;
             }
         });
+		/*function tohyo(message){
+		$('"#' + message.id + '"').on("click", function(){
+	countup();
+	});
+	var count = 0;
+	 function countup(){
+		count++;
+		$('"#' + message.id + '> .count-num"').html("<p>" + count + "</p>");
+		console.log(count);
+		}
+		} */
     });
     //インジェクション対策
     function escapeHTML(val) {
         return $('<div>').text(val).html();
-    }; 
+    };      
+	$(function() {
+		//投票機能
+		$(".post").on("click", function(){
+	countup();
+	});
+	var count = 0;
+	 function countup(){
+		count++;
+		$(".count-num").html("<p>" + count + "</p>");
+		console.log(count);
+		}
+	});
     </script>
 </head>
 
@@ -86,27 +107,7 @@
                    <li><input type="text" name="name" id="name" value="" placeholder="投稿者名"/></li>
                    <li><textarea name="" id="content" cols="30" rows="10" placeholder="Enterで投稿"></textarea></li>
                </ul>
-            </div>
-
-<!--
-            <div class="postarea-share cf">
-                <p>このチャットをシェアする！</p>
-                <div class="postarea-share-button cf">
-                    <script>
-                    var url = encodeURIComponent(location.href);
-                    document.write('<iframe src="//www.facebook.com/plugins/like.php?href='+url+'&amp;width&amp;layout=button&amp;action=like&amp;show_faces=false&amp;share=true&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:20px;" allowTransparency="true"></iframe>');
-                    </script>
-                    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ja" data-count="none">ツイート</a>
-                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-                </div>
-            </div>
--->
-
-
-            <button id="post" class="postarea-button">投稿する</button>
-            <!--<input type="button" id="slect_all" name="delete" value="すべて選択"> -->
-            <input type="button" id="delete" name="delete" value="チェックした投稿を削除">
-            
+            </div>   
         </div>
     </div>
 
