@@ -56,15 +56,25 @@
         }
         $('#post').click(function () {
             post();
-        })
+        });
         $('#content').keydown(function (e) {
             if (e.which == 13){
                 post();
                 return false;
             }
         });
+		//投票機能
+		$(document).on("click",".post" , function(){
+	countup();
+	});
+	var count = 0;
+	 function countup(){
+		count++;
+		console.log(count);
+		$(".count-num").html("<p>" + count + "</p>");
+		}
 		/*function tohyo(message){
-		$('"#' + message.id + '"').on("click", function(){
+		$(document).on("click", '"#' + message.id + '"' ,function(){
 	countup();
 	});
 	var count = 0;
@@ -79,18 +89,6 @@
     function escapeHTML(val) {
         return $('<div>').text(val).html();
     };      
-	$(function() {
-		//投票機能
-		$(".post").on("click", function(){
-	countup();
-	});
-	var count = 0;
-	 function countup(){
-		count++;
-		$(".count-num").html("<p>" + count + "</p>");
-		console.log(count);
-		}
-	});
     </script>
 </head>
 
