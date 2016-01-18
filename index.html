@@ -64,15 +64,12 @@
             }
         });
 		//投票機能
+		var count = 0;
 		$(document).on("click",".post" , function(){
-	countup();
-	});
-	var count = 0;
-	 function countup(){
 		count++;
 		console.log(count);
-		$(".count-num").html("<p>" + count + "</p>");
-		}
+		$(this).children(".count-num").html("<p>" + count + "</p>");
+		});
 		/*function tohyo(message){
 		$(document).on("click", '"#' + message.id + '"' ,function(){
 	countup();
