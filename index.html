@@ -33,11 +33,12 @@
             var message_html = '<p class="post-text">' + escapeHTML(message.value.content) + '</p>';
             var date_html = '';
 			var count_html = '<div class="count-num"></div>';
+			message_id = escapeHTML(message.id);
             if(message.value.date) {
                 date_html = '<p class="post-date">TIME：'+escapeHTML( new Date(message.value.date).toLocaleString())+'</p>'; //「toLocaleString()」で時間表記を整形している
             }
-            $("#"+last_message).before('<div id="'+message.id+'" class="post">' + name_html + message_html + count_html + date_html + '</div>');
-            last_message = message.id;
+            $("#"+last_message).before('<div id="'+message_id+'" class="post">' + name_html + message_html + count_html + date_html + '</div>');
+            last_message = message_id;
         }
         function post() {
             //5."message"データストアにメッセージをプッシュする
@@ -63,12 +64,67 @@
                 return false;
             }
         });
-		//投票機能
+    });
+    //インジェクション対策
+    function escapeHTML(val) {
+        return $('<div>').text(val).html();
+    };  
+	
+	//投票機能
+		$(document).on("click", ".post", function(){
+		var count_num =$(this).children(".count-num").html();//現状のカウント数取得
+			if(!count_num){ 　//カウント数の有無判定
 		var count = 0;
-		$(document).on("click",".post" , function(){
 		count++;
 		console.log(count);
-		$(this).children(".count-num").html("<p>" + count + "</p>");
+		var idname = $(this).attr("id"); //クリックされた要素のid名取得
+		console.log(idname);
+		$("#" + idname).children(".count-num").html("<p>" + count + "</p>");//カウント数の表示
+		}else{
+			var count = $(this).children(".count-num").children("p").html();//現状のカウント数取得
+			count++;
+		console.log(count);
+		var idname = $(this).attr("id"); 
+		console.log(idname);
+		$("#" + idname).children(".count-num").html("<p>" + count + "</p>");//カウント数の表示
+			}
+		//カウント数が3以上でコメントテキストを取得
+		if(count >= 3){
+		text = $(this).children(".post-text").text();
+		console.log(text);
+		
+		
+	//テキスト解析
+	appid = 'dj0zaiZpPUtrUzlYZm9rQzdaQyZzPWNvbnN1bWVyc2VjcmV0Jng9MTM-'; // <-- ここにあなたのアプリケーションIDを設定してください。
+	sentence = text;
+
+function escapestring(str) {
+    return htmlspecialchars(str, ENT_QUOTES);
+}
+
+function show_keyphrase(appid, sentence){
+  output = "xml";
+  request  = "http://jlp.yahooapis.jp/KeyphraseService/V1/extract?";
+  request += "appid=" + appid + "sentence="+ urlencode(sentence) + "&output=" + output;
+  
+  responsexml = simplexml_load_file(request);
+  
+  result_num = count(responsexml > Result);
+
+  if($result_num > 0){
+	  
+    //"<table>";
+    // "<tr><td><b>キーフレーズ</b></td></tr>";
+
+    for(i = 0; i < result_num; i++){
+      result = responsexml > Result[i];
+	  console.log("結果"+result);
+      //escapestring(result->Keyphrase);
+    }
+    //echo "</table>";
+  }
+}    
+		}
 		});
 		/*function tohyo(message){
 		$(document).on("click", '"#' + message.id + '"' ,function(){
@@ -81,11 +137,7 @@
 		console.log(count);
 		}
 		} */
-    });
-    //インジェクション対策
-    function escapeHTML(val) {
-        return $('<div>').text(val).html();
-    };      
+		
     </script>
 </head>
 
