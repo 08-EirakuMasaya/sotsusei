@@ -1,11 +1,5 @@
 <?php
 	
-/**
- * Yahoo! JAPAN Web APIのご利用には、アプリケーションIDの登録が必要です。
- * あなたが登録したアプリケーションIDを $appid に設定してお使いください。
- * アプリケーションIDの登録URLは、こちらです↓
- * http://e.developer.yahoo.co.jp/webservices/register_application
- */
 $appid = 'dj0zaiZpPUtrUzlYZm9rQzdaQyZzPWNvbnN1bWVyc2VjcmV0Jng9MTM-'; // <-- ここにあなたのアプリケーションIDを設定してください。
 
 function escapestring($str) {
@@ -29,11 +23,11 @@ function show_keyphrase($appid, $sentence){
 
   if($result_num > 0){
     echo "<table>";
-    echo "<tr><td><b>キーフレーズ</b></td><td><b>スコア</b></td></tr>";
+    echo "<tr><td><b>キーフレーズ</b></td></tr>";
 
     for($i = 0; $i < $result_num; $i++){
       $result = $responsexml->Result[$i];
-      echo "<tr><td>".escapestring($result->Keyphrase)."</td><td>".escapestring($result->Score)."</td></tr>";
+      echo "<tr><td>".escapestring($result->Keyphrase)."</td></tr>";
     }
     echo "</table>";
   }
