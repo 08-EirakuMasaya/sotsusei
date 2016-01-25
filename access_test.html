@@ -16,17 +16,17 @@
     		console.log('sent!', sent.value);
 		});
 		var all_user = $('.all_user').html();
-		$(document).ready(function(){
-			if(!all_user){
+		if(!all_user){
 			var user_num = 0;
 		}
 		else{
 			var user_num = $('.all_user').html();
 		}
-			user_num++;
+		$(document).ready(function(){
 			render_alluser(user_num);
 		});
 		function render_alluser(){
+			user_num++;
   			console.log(user_num);
 				$('.all_user').html(user_num);
 			}
