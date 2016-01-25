@@ -3,19 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <title>ユーザー監視　テスト</title>
- <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
- 
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://cdn.mlkcca.com/v2.0.0/milkcocoa.js"></script>
 <script>
-$(function(){
-	var user_log = 0;
-	$(document).ready(function(){
-  console.log('ready 1');
-  var user_log = ++
-});
-	});
+ $(function() {
+        //1.ミルクココアインスタンスを作成 アプリ作成時に生成されたidを入力your_id.mlkcca.com
+        var milkcocoa = new MilkCocoa("appleifc51zjn.mlkcca.com");
+        //2."message"データストアを作成ストア名の変えると都度生成する
+        var ds = milkcocoa.dataStore("message");
+		ds.on('send', function(sent) {
+			render_alluser(sent);
+    		console.log('sent!', sent.value);
+		});
+		var all_user = $('.all_user').html();
+		$(document).ready(function(){
+			if(!all_user){
+			var user_num = 0;
+		}
+		else{
+			var user_num = $('.all_user').html();
+		}
+			user_num++;
+			render_alluser(user_num);
+		});
+		function render_alluser(){
+  			console.log(user_num);
+				$('.all_user').html(user_num);
+			}
+	ds.send({
+    			content : user_num
+			});
+ });
 </script>
 </head>
 
 <body>
+<div>
+<h1>接続ユーザー数</h1>
+<p class="all_user"></p>
+</div>
 </body>
 </html>
