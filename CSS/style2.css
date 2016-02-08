@@ -115,11 +115,13 @@ p.thumb{
 	height:100%;
 }
 #carousel_box #prev {
+	left:0;
 	background-image: url(../img/btn_prev.png);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
 #carousel_box #next {
+	right:0;
 	background-image: url(../img/btn_next.png);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
