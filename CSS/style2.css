@@ -52,19 +52,19 @@ border-radius: 2px !important;		/* CSS3草案 */
 }
 #result {
 	position: fixed;
-    overflow-y: hidden;
-    overflow-x: scroll;
     width: 100%;
     height: 200px;
     bottom: 50px;
 }
+#result_carousel {
+	position:relative;
+	width:100%;
+	height:100%;
+	overflow: hidden;
+}
 #result ul {
 	height:200px;
-	width:1231px;
-	position: absolute;
-	display:block;
 	background-color: #494949;
-	text-align:center;
 }
 #result li {
 	float:left; /*liを横並びにする*/
@@ -101,10 +101,35 @@ p.thumb{
     position:relative;
     z-index:1;
 }
-/*p.thumb img{
-    float:left;
-    position:absolute;
-}*/
+
+#result #prev,
+#result #next {
+	position: absolute;
+	top: 0;
+	width: 20px;
+	height:100%;
+}
+#result #prev {
+	left: -20px;
+	background-image: url(../img/btn_prev.png);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+}
+#result #next {
+	right: -20px;
+	background-image: url(../img/btn_next.png);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+}
+
+#result .show {
+	cursor: pointer;
+	background: #FF3399;
+	z-index:20;
+}
+#result .hide {
+	background: #ccc;
+}
 
 .thumb_text {
 	width:180px;

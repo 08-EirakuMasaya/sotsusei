@@ -5,9 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>sotsusei</title>
+     <link href="https://fonts.googleapis.com/css?family=Poppins:300,500,700" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="./css/style.css" type="text/css" />
+    <link rel="stylesheet" href="./css/reset.css" type="text/css" />
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://cdn.mlkcca.com/v2.0.0/milkcocoa.js"></script>
+    <script src="./js/thumb_resize.js"></script>
     <script>
     $(function() {
         //1.ミルクココアインスタンスを作成 アプリ作成時に生成されたidを入力your_id.mlkcca.com
@@ -91,40 +94,66 @@
 		//カウント数が3以上でコメントテキストを取得
 		if(count >= 3){
 		text = $(this).children(".post-text").text();
-		console.log(text);
-		
-		
-	//テキスト解析
-	appid = 'dj0zaiZpPUtrUzlYZm9rQzdaQyZzPWNvbnN1bWVyc2VjcmV0Jng9MTM-'; // <-- ここにあなたのアプリケーションIDを設定してください。
-	sentence = text;
-
-function escapestring(str) {
-    return htmlspecialchars(str, ENT_QUOTES);
-}
-
-function show_keyphrase(appid, sentence){
-  output = "xml";
-  request  = "http://jlp.yahooapis.jp/KeyphraseService/V1/extract?";
-  request += "appid=" + appid + "sentence="+ urlencode(sentence) + "&output=" + output;
-  
-  responsexml = simplexml_load_file(request);
-  
-  result_num = count(responsexml > Result);
-
-  if($result_num > 0){
-	  
-    //"<table>";
-    // "<tr><td><b>キーフレーズ</b></td></tr>";
-
-    for(i = 0; i < result_num; i++){
-      result = responsexml > Result[i];
-	  console.log("結果"+result);
-      //escapestring(result->Keyphrase);
-    }
-    //echo "</table>";
-  }
-}    
+		console.log(text);  
+		kaiseki();
 		}
+		//テキスト解析
+	function kaiseki() {
+		var apiBaseUrl = "http://jlp.yahooapis.jp/KeyphraseService/V1/extract?callback=?";
+var appid = "dj0zaiZpPUtrUzlYZm9rQzdaQyZzPWNvbnN1bWVyc2VjcmV0Jng9MTM-";
+	$.getJSON(apiBaseUrl,
+		  {
+		      "appid" : appid,
+		      "sentence" : text,
+		      "output" : "json"
+		  },
+		  function(data) {
+		      $.each(data, function(item){
+			  $("#result").text(item);
+			  kensaku(item);
+			  console.log("結果" , item);
+		      });
+		  }
+	    );
+    }//end テキスト解析
+	
+//ぐるなび
+  var url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/?callback=?';
+  var params = {
+    keyid: 'ac32eeac53d7ac9d23b1aca6e90d843f',
+    format: 'json',
+	freeword_condition: 1,
+	freeword:''
+    /*latitude: 35.670083,
+    longitude: 139.763267,
+    range: 1 */
+  };
+ 
+  var showResult = function(result){
+	  //.」で繋ぐことでデータ内のキーにアクセス
+    if ( result.total_hit_count > 0 ) {
+      var res = '';
+      //alert( result.total_hit_count + '件の結果が見つかりました。\n' );
+      for ( var i in result.rest ){
+          res += '<li><p class="thumb"><img src = "' + result.rest[i].image_url.shop_image1 + '" class ="tumb1" alt = ""></p><br /> ' + result.rest[i].name + ' ' + result.rest[i].access.line + ' ' + result.rest[i].access.station + ' ' + result.rest[i].access.walk + '分</li>';
+      }
+	  $('#result').html('<ul>' + res + '</ul>');
+    /*  alert(res);*/
+    } else {
+      alert( '検索結果が見つかりませんでした。' );
+    }
+  }
+ 
+  function kensaku(item){
+ console.log("検索スタート");
+    <!-- params.keyid = $('.js--key').val(); -->
+	<!-- ここでjsonを呼びだし、function(result)はコールバック関数（リクエスト成功時の処理を関数として指定。 関数の引数としてdata, textStatus, jqXHRの3つの値を受け取る事が出来る） -->
+	params.freeword = item;
+    $.getJSON(url, params, function(result){
+      showResult(result);
+    });
+  }
+ //endぐるなび
 		});
 		/*function tohyo(message){
 		$(document).on("click", '"#' + message.id + '"' ,function(){
@@ -145,23 +174,22 @@ function show_keyphrase(appid, sentence){
     <div class="header">
         <h1 class="logo">CHAT</h1>
     </div>
-
-    <div class="container">
-        <div class="postarea cf">
-
-            <div class="postarea-text">
-               <ul>
-                   <li><input type="text" name="name" id="name" value="" placeholder="投稿者名"/></li>
-                   <li><textarea name="" id="content" cols="30" rows="10" placeholder="Enterで投稿"></textarea></li>
-               </ul>
-            </div>   
-        </div>
-    </div>
-
     <div id="messages" class="content">
         <div id="dummy"></div>
     </div>
-
-    <p class="footer"><strong>Powered by <a href="http://mlkcca.com/">Milkcocoa</a></strong></p>
+<div id="result"></div>
+    <p class="lisence">Powered by <a href="http://mlkcca.com/">Milkcocoa</a></p>
+<div class="postarea">
+      <div class="postarea-text">
+        <ul>
+          <li>
+            <input type="text" name="name" id="name" value="" placeholder="&nbsp;　投稿者名"/>
+          </li>
+          <li>
+            <textarea name="content" id="content" cols="30" rows="10" placeholder="&nbsp;　Enterで投稿"></textarea>
+          </li>
+        </ul>
+      </div>
+</div>
 </body>
 </html>

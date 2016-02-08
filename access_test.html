@@ -6,14 +6,14 @@
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://cdn.mlkcca.com/v2.0.0/milkcocoa.js"></script>
 <script>
- $(function() {
+  $(function() {
         //1.ミルクココアインスタンスを作成 アプリ作成時に生成されたidを入力your_id.mlkcca.com
         var milkcocoa = new MilkCocoa("appleifc51zjn.mlkcca.com");
         //2."message"データストアを作成ストア名の変えると都度生成する
         var ds = milkcocoa.dataStore("message");
 		ds.on('send', function(sent) {
 			render_alluser(sent);
-    		console.log('sent!', sent.value);
+    		console.log('sent!', sent.value.content);
 		});
 		var all_user = $('.all_user').html();
 		if(!all_user){
@@ -22,17 +22,36 @@
 		else{
 			var user_num = $('.all_user').html();
 		}
+		console.log('redy前',user_num);
 		$(document).ready(function(){
+			
 			render_alluser(user_num);
 		});
+		console.log('redy後',user_num);
 		function render_alluser(){
 			user_num++;
-  			console.log(user_num);
+  			console.log('lender内', user_num);
 				$('.all_user').html(user_num);
 			}
+			console.log('lender後',user_num);
 	ds.send({
     			content : user_num
-			});
+				
+			}, function(err, sent){
+    //サーバに到達
+    console.log(sent);
+	console.log(err);
+    /*
+    {
+        value: {
+            content: 'Hello!!!'
+        }
+    }
+    */
+}, function(err) {
+	 console.log('エラー' , err);
+    //"Permission denied" or "limit exceeded"
+});
  });
 </script>
 </head>

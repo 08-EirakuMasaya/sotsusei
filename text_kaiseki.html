@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+<title>テキスト解析　テスト</title>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script>
+/*function test() {
+var p = [
+"appid= 'dj0zaiZpPUtrUzlYZm9rQzdaQyZzPWNvbnN1bWVyc2VjcmV0Jng9MTM-'",
+"sentence=" + encodeURIComponent(document.getElementById("hoge").value),
+"output=json",
+"callback=myTest"
+].join("&");
+
+var s = document.createElement("script");
+s.src = "http://jlp.yahooapis.jp/KeyphraseService/V1/extract?" + p;
+document.body.appendChild(s);
+
+document.getElementById("fuga").value = "処理中..."
+}
+
+function myTest(d) {
+var res = "";
+for(var i in d) {
+res += i + " : " + d[i] + "\n";
+}
+console.dir(d);
+document.getElementById("fuga").value = res;
+}*/
+var apiBaseUrl = "http://jlp.yahooapis.jp/KeyphraseService/V1/extract?callback=?";
+var appid = "dj0zaiZpPUtrUzlYZm9rQzdaQyZzPWNvbnN1bWVyc2VjcmV0Jng9MTM-";
+
+$(function(){
+    $("#start").click(function() {
+	//alert($("#targetText").val());
+	$.getJSON(apiBaseUrl,
+		  {
+		      "appid" : appid,
+		      "sentence" : $("#targetText").val(),
+		      "output" : "json"
+		  },
+		  function(data) {
+		      //alert(data);
+		      $.each(data, function(item){
+			  //alert(item);
+			  $("#result").append(item + "<br>");
+		      });
+		  }
+	    );
+    });
+});
+</script>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+</head>
+<body>
+<textarea id="targetText" rows="10" cols="45"></textarea>
+<input id="start" type="button" value="解析">
+<div id="result"></div>
+<!-- Begin Yahoo! JAPAN Web Services Attribution Snippet -->
+<a href="http://developer.yahoo.co.jp/about">
+<img src="http://i.yimg.jp/images/yjdn/yjdn_attbtn1_125_17.gif" title="Webサービス by Yahoo! JAPAN" alt="Web Services by Yahoo! JAPAN" width="125" height="17" border="0" style="margin:15px 15px 15px 15px"></a>
+<!-- End Yahoo! JAPAN Web Services Attribution Snippet -->
+</body>
+</html>
