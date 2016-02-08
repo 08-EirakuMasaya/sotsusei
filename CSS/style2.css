@@ -102,32 +102,35 @@ p.thumb{
     z-index:1;
 }
 
-#result #prev,
-#result #next {
+#carousel_box {
+	position:relative;
+	width: 100%;
+    height: 200px;
+}
+#carousel_box #prev,
+#carousel_box #next {
 	position: absolute;
 	top: 0;
 	width: 20px;
 	height:100%;
 }
-#result #prev {
-	left: -20px;
+#carousel_box #prev {
 	background-image: url(../img/btn_prev.png);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
-#result #next {
-	right: -20px;
+#carousel_box #next {
 	background-image: url(../img/btn_next.png);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
 
-#result .show {
+#carousel_box .show {
 	cursor: pointer;
 	background: #FF3399;
 	z-index:20;
 }
-#result .hide {
+#carousel_box .hide {
 	background: #ccc;
 }
 
